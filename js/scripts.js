@@ -51,24 +51,6 @@ autoPlayBtn.style.cssText = "padding: 5px 25px; margin: 16px 5px 5px; font-weigh
 autoPlayBtn.addEventListener('click', initAutoPlay);
 footerContent.appendChild(autoPlayBtn);
 
-var x = window.matchMedia("(min-width: 845px)");
-function resize() {
-	 if(!x.matches) { // 1 column
-		thumbsDiv2.style.display = "none";
-		thumbsDiv.style.display = "block";
-		bigPicDiv.style.width = "100%";
-		bigPicDiv.style.height = "auto";
-		bigPicDiv.style.float = "";
-	} else { // 2 columns
-		thumbsDiv.style.display = "none";
-		 thumbsDiv2.style.display = "block";
-		 bigPicDiv.style.width = "73%";
-		 bigPicDiv.style.height = "auto";
-		 bigPicDiv.style.float = "left";
-	}
-}
-x.addListener(resize);
-
 
 
 let myInterval;
@@ -123,12 +105,13 @@ let slideArr = [
 
 let bigPic = new Image();
 bigPic.style.cssText = "width: 100%; height: auto; margin-bottom: 10px";
-bigPic.src = `${folder}/${slideArr[0].fileName}`;
+bigPic.src = `${folder}${slideArr[0].fileName}`;
 bigPicDiv.appendChild(bigPic);
 
 footerTxt.innerHTML = slideArr[0].fileCaption;
 
 for (let i = 0; i < slideArr.length; i++) {
+    // 1 column layout
     let thumbPic = new Image();
     thumbPic.style.cssText = "width:100px; height: 100px; margin: 10px";
 	
@@ -139,7 +122,7 @@ for (let i = 0; i < slideArr.length; i++) {
 	
 	
 	
-	//2 column layout
+	// 2 column layout
 	let thumbPic2 = new Image();
     thumbPic2.style.cssText = "width:91%; height: auto; margin: 10px";
 	
@@ -169,6 +152,24 @@ function swapPic() {
         
     } // end outer if/else
 } // end swapPic
+
+var x = window.matchMedia("(min-width: 845px)");
+function resize() {
+	 if(x.matches) { // 2 columns
+         thumbsDiv.style.display = "none";
+		 thumbsDiv2.style.display = "block";
+		 bigPicDiv.style.width = "73%";
+		 bigPicDiv.style.height = "auto";
+		 bigPicDiv.style.float = "left";
+	} else { // 1 column
+        thumbsDiv2.style.display = "none";
+		thumbsDiv.style.display = "block";
+		bigPicDiv.style.width = "100%";
+		bigPicDiv.style.height = "auto";
+		bigPicDiv.style.float = "";
+	}
+}
+x.addListener(resize);
 
 
 
